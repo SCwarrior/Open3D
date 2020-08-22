@@ -49,9 +49,8 @@ public:
 void pybind_geometry(py::module& m) {
     py::module m_submodule = m.def_submodule("tgeometry");
 
-    // Geometry class.
-
-    // Sub classes.
+    pybind_geometry_class(m_submodule);
+    pybind_tensorlist_map(m_submodule);
     pybind_pointcloud(m_submodule);
 }
 

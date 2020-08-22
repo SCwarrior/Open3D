@@ -25,13 +25,12 @@
 // ----------------------------------------------------------------------------
 
 #include "open3d/tgeometry/PointCloud.h"
-
 #include "pybind/tgeometry/geometry.h"
 
 namespace open3d {
 namespace tgeometry {
 
-void pybind_pointcloud(py::module& m) {}
+void pybind_tensorlist_map(py::module& m) {}
 
 }  // namespace tgeometry
 }  // namespace open3d

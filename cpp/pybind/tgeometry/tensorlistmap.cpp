@@ -34,8 +34,12 @@ namespace open3d {
 namespace tgeometry {
 
 void pybind_tensorlistmap(py::module& m) {
-    py::class_<TensorListMap, std::shared_ptr<TensorListMap>> tlm(
-            m, "TensorListMap", "Map of TensorList by string.");
+    // Bind to the generic dictionary interface such that it works the same as a
+    // regular dictionay in Python, except that types are enforced. Supported
+    // functions include `__bool__`, `__iter__`, `items`, `__getitem__`,
+    // `__contains__`, `__delitem__`, `__len__` and map assignment.
+    auto tlm = py::bind_map<TensorListMap>(m, "TensorListMap",
+                                           "Map of TensorList by string.");
 
     // Constructors.
     tlm.def(py::init<const std::string&>(), "primary_key"_a)
@@ -44,16 +48,11 @@ void pybind_tensorlistmap(py::module& m) {
                                                    core::TensorList>&>(),
                  "primary_key"_a, "map_keys_to_tensorlists"_a);
 
-    // Member functions from unordered_map. TensorListMap inheris
-    // std::unordered_map, but pybind does not forward the std::unordered_map
-    // bindings. The following source code are modified from
-    // pybind11/stl_bind.h.
-    tlm.def(
-            "__bool__",
-            [](const TensorListMap& m) -> bool { return !m.empty(); },
-            "Check whether the map is nonempty");
-
     // Member functions.
+    //
+    // Some C++ functions are ignored since the functionalities are already
+    // covered in the generic dictionary interface:
+    // - Assign
     tlm.def("assign", &TensorListMap::Assign, "map_keys_to_tensorlists"_a)
             .def("synchronized_pushback", &TensorListMap::SynchronizedPushBack,
                  "map_keys_to_tensors"_a)

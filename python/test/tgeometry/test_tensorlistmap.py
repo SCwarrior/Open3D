@@ -38,23 +38,22 @@ def test_tensorlistmap():
     tlm = o3d.tgeometry.TensorListMap("points")
     assert tlm.get_primary_key() == "points"
 
-    # Constructor with tl values.
+    # Map member access. This should be the preferrred way to construct a
+    # TensorListMap in python.
     points = o3c.TensorList(o3c.SizeVector([3]), dtype, device)
     colors = o3c.TensorList(o3c.SizeVector([3]), dtype, device)
+    tlm = o3d.tgeometry.TensorListMap("points")
+    print("points" in tlm)
+    tlm["points"] = points
+    tlm["colors"] = colors
+
+    # Constructor with tl values.
     tlm = o3d.tgeometry.TensorListMap("points", {
         "points": points,
         "colors": colors
     })
 
-    # Assign.
-    tlm = o3d.tgeometry.TensorListMap("points")
-    tlm.assign({"points": points, "colors": colors})
-
     # Syncronized pushback.
     one_point = o3c.Tensor.ones((3,), dtype, device)
     one_color = o3c.Tensor.ones((3,), dtype, device)
-    tlm = o3d.tgeometry.TensorListMap("points")
-    tlm.assign({"points": points, "colors": colors})
     tlm.synchronized_pushback({"points": one_point, "colors": one_color})
-
-    print(tlm)

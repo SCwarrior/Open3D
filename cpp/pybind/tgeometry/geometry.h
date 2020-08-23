@@ -26,10 +26,26 @@
 
 #pragma once
 
+#include "open3d/tgeometry/Geometry.h"
 #include "pybind/open3d_pybind.h"
 
 namespace open3d {
 namespace tgeometry {
+
+// Geometry trampoline class.
+template <class GeometryBase = Geometry>
+class PyGeometry : public GeometryBase {
+public:
+    using GeometryBase::GeometryBase;
+
+    GeometryBase& Clear() override {
+        PYBIND11_OVERLOAD_PURE(GeometryBase&, GeometryBase, );
+    }
+
+    bool IsEmpty() const override {
+        PYBIND11_OVERLOAD_PURE(bool, GeometryBase, );
+    }
+};
 
 void pybind_geometry(py::module& m);
 void pybind_geometry_class(py::module& m);

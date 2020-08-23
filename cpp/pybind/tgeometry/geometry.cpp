@@ -32,23 +32,9 @@
 namespace open3d {
 namespace tgeometry {
 
-// Geometry trampoline class.
-template <class GeometryBase = Geometry>
-class PyGeometry : public GeometryBase {
-public:
-    using GeometryBase::GeometryBase;
-
-    GeometryBase& Clear() override {
-        PYBIND11_OVERLOAD_PURE(GeometryBase&, GeometryBase, );
-    }
-
-    bool IsEmpty() const override {
-        PYBIND11_OVERLOAD_PURE(bool, GeometryBase, );
-    }
-};
 
 void pybind_geometry_class(py::module& m) {
-    py::class_<Geometry, PyGeometry<Geometry>, std::shared_ptr<Geometry>>
+    py::class_<Geometry, PyGeometry<Geometry>, std::unique_ptr<Geometry>>
             geometry(m, "Geometry", "The base geometry class.");
 
     geometry.def("clear", &Geometry::Clear,

@@ -31,7 +31,12 @@
 namespace open3d {
 namespace tgeometry {
 
-void pybind_pointcloud(py::module& m) {}
+void pybind_pointcloud(py::module& m) {
+    py::class_<PointCloud, PyGeometry<PointCloud>, std::unique_ptr<PointCloud>,
+               Geometry>
+            pointcloud(m, "PointCloud",
+                       "A pointcloud contains a set of 3D points.");
+}
 
 }  // namespace tgeometry
 }  // namespace open3d

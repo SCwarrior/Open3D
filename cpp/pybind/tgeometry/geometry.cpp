@@ -46,6 +46,11 @@ public:
     }
 };
 
+void pybind_geometry_class(py::module& m) {
+    py::class_<Geometry, PyGeometry<Geometry>, std::shared_ptr<Geometry>>
+            geometry(m, "Geometry", "The base geometry class.");
+}
+
 void pybind_geometry(py::module& m) {
     py::module m_submodule = m.def_submodule("tgeometry");
 

@@ -33,7 +33,25 @@
 namespace open3d {
 namespace tgeometry {
 
-void pybind_tensorlist_map(py::module& m) {}
+void pybind_tensorlistmap(py::module& m) {
+    py::class_<TensorListMap, std::shared_ptr<TensorListMap>> tensorlistmap(
+            m, "TensorListMap", "Map of TensorList by string.");
+
+    tensorlistmap.def(py::init<const std::string&>(), "primary_key"_a)
+            .def(py::init<const std::string&,
+                          const std::unordered_map<std::string,
+                                                   core::TensorList>&>(),
+                 "primary_key"_a, "map_keys_to_tensorlists"_a);
+
+    tensorlistmap
+            .def("assign", &TensorListMap::Assign, "map_keys_to_tensorlists"_a)
+            .def("synchronized_pushback", &TensorListMap::SynchronizedPushBack,
+                 "map_keys_to_tensors"_a)
+            .def("get_primary_key", &TensorListMap::GetPrimaryKey)
+            .def("is_size_synchronized", &TensorListMap::IsSizeSynchronized)
+            .def("assert_size_synchronized",
+                 &TensorListMap::AssertSizeSynchronized);
+}
 
 }  // namespace tgeometry
 }  // namespace open3d

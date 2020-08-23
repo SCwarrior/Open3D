@@ -33,7 +33,7 @@ namespace tgeometry {
 
 void pybind_geometry(py::module& m);
 void pybind_geometry_class(py::module& m);
-void pybind_tensorlist_map(py::module& m);
+void pybind_tensorlistmap(py::module& m);
 void pybind_pointcloud(py::module& m);
 
 }  // namespace tgeometry

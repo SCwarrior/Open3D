@@ -36,6 +36,18 @@ void pybind_pointcloud(py::module& m) {
                Geometry>
             pointcloud(m, "PointCloud",
                        "A pointcloud contains a set of 3D points.");
+
+    // Constructors.
+    pointcloud
+            .def(py::init<core::Dtype, const core::Device&>(), "dtype"_a,
+                 "device"_a)
+            .def(py::init<const core::TensorList&>(), "points"_a)
+            .def(py::init<const std::unordered_map<std::string,
+                                                   core::TensorList>&>(),
+                 "map_keys_to_tensorlists"_a);
+
+    // Point's attributes: points, colors, normals.
+    pointcloud.def_property_readonly("point", &PointCloud::GetPointAttrPybind);
 }
 
 }  // namespace tgeometry

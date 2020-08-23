@@ -116,6 +116,14 @@ public:
 
     virtual ~PointCloud() override {}
 
+    /// Getter for point_attr_ TensorListMap. Used in Pybind.
+    const TensorListMap &GetPointAttrPybind() const { return point_attr_; }
+
+    /// Setter for point_attr_ TensorListMap. Used in Pybind.
+    void SetPointAttrPybind(const TensorListMap &point_attr) {
+        point_attr_ = point_attr;
+    };
+
     /// Get attributes. Throws exception if the attribute does not exist.
     ///
     /// \param key Attribute name.

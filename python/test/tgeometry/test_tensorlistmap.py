@@ -36,16 +36,21 @@ def test_tensorlistmap():
 
     # Constructor.
     tlm = o3d.tgeometry.TensorListMap("points")
+
+    # Get primary key().
     assert tlm.get_primary_key() == "points"
 
-    # Map member access. This should be the preferrred way to construct a
-    # TensorListMap in python.
+    # Map member access, assignment and "contains" check. This should be the
+    # preferrred way to construct a TensorListMap with values in python.
     points = o3c.TensorList(o3c.SizeVector([3]), dtype, device)
     colors = o3c.TensorList(o3c.SizeVector([3]), dtype, device)
     tlm = o3d.tgeometry.TensorListMap("points")
-    print("points" in tlm)
+    assert "points" not in tlm
     tlm["points"] = points
+    assert "points" in tlm
+    assert "colors" not in tlm
     tlm["colors"] = colors
+    assert "colors" in tlm
 
     # Constructor with tl values.
     tlm = o3d.tgeometry.TensorListMap("points", {
@@ -56,4 +61,10 @@ def test_tensorlistmap():
     # Syncronized pushback.
     one_point = o3c.Tensor.ones((3,), dtype, device)
     one_color = o3c.Tensor.ones((3,), dtype, device)
-    tlm.synchronized_pushback({"points": one_point, "colors": one_color})
+    tlm.synchronized_push_back({"points": one_point, "colors": one_color})
+    tlm["points"].push_back(one_point)
+    assert not tlm.is_size_synchronized()
+    with pytest.raises(RuntimeError):
+        tlm.assert_size_synchronized()
+    with pytest.raises(RuntimeError):
+        tlm.synchronized_push_back({"points": one_point, "colors": one_color})

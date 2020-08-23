@@ -54,7 +54,7 @@ void pybind_tensorlistmap(py::module& m) {
     // covered in the generic dictionary interface:
     // - Assign
     tlm.def("assign", &TensorListMap::Assign, "map_keys_to_tensorlists"_a)
-            .def("synchronized_pushback", &TensorListMap::SynchronizedPushBack,
+            .def("synchronized_push_back", &TensorListMap::SynchronizedPushBack,
                  "map_keys_to_tensors"_a)
             .def("get_primary_key", &TensorListMap::GetPrimaryKey)
             .def("is_size_synchronized", &TensorListMap::IsSizeSynchronized)

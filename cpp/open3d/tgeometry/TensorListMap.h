@@ -57,7 +57,7 @@ public:
     }
 
     /// A primary key is always required.
-    TensorListMap() = delete;
+    TensorListMap() : TensorListMap("Undefined") {}
 
     /// Clear the current map and assign new keys and values. The primary key
     /// remains unchanged. The input \p map_keys_to_tensorlists must at least

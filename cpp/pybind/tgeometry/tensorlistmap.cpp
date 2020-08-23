@@ -48,14 +48,10 @@ void pybind_tensorlistmap(py::module& m) {
                                                    core::TensorList>&>(),
                  "primary_key"_a, "map_keys_to_tensorlists"_a);
 
-    // Member functions.
-    //
-    // Some C++ functions are ignored since the functionalities are already
-    // covered in the generic dictionary interface:
-    // - Assign
-    tlm.def("assign", &TensorListMap::Assign, "map_keys_to_tensorlists"_a)
-            .def("synchronized_push_back", &TensorListMap::SynchronizedPushBack,
-                 "map_keys_to_tensors"_a)
+    // Member functions. Some C++ functions are ignored since the
+    // functionalities are already covered in the generic dictionary interface.
+    tlm.def("synchronized_push_back", &TensorListMap::SynchronizedPushBack,
+            "map_keys_to_tensors"_a)
             .def("get_primary_key", &TensorListMap::GetPrimaryKey)
             .def("is_size_synchronized", &TensorListMap::IsSizeSynchronized)
             .def("assert_size_synchronized",

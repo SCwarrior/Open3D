@@ -25,10 +25,36 @@
 # ----------------------------------------------------------------------------
 
 import open3d as o3d
+import open3d.core as o3c
 import numpy as np
 import pytest
 
 
 def test_tensorlistmap():
+    device = o3c.Device("CPU:0")
+    dtype = o3c.Dtype.Float32
+
+    # Constructor.
     tlm = o3d.tgeometry.TensorListMap("points")
+    assert tlm.get_primary_key() == "points"
+
+    # Constructor with tl values.
+    points = o3c.TensorList(o3c.SizeVector([3]), dtype, device)
+    colors = o3c.TensorList(o3c.SizeVector([3]), dtype, device)
+    tlm = o3d.tgeometry.TensorListMap("points", {
+        "points": points,
+        "colors": colors
+    })
+
+    # Assign.
+    tlm = o3d.tgeometry.TensorListMap("points")
+    tlm.assign({"points": points, "colors": colors})
+
+    # Syncronized pushback.
+    one_point = o3c.Tensor.ones((3,), dtype, device)
+    one_color = o3c.Tensor.ones((3,), dtype, device)
+    tlm = o3d.tgeometry.TensorListMap("points")
+    tlm.assign({"points": points, "colors": colors})
+    tlm.synchronized_pushback({"points": one_point, "colors": one_color})
+
     print(tlm)

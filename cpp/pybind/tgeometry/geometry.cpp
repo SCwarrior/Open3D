@@ -26,6 +26,7 @@
 
 #include "open3d/tgeometry/Geometry.h"
 
+#include "pybind/docstring.h"
 #include "pybind/tgeometry/geometry.h"
 
 namespace open3d {
@@ -49,6 +50,13 @@ public:
 void pybind_geometry_class(py::module& m) {
     py::class_<Geometry, PyGeometry<Geometry>, std::shared_ptr<Geometry>>
             geometry(m, "Geometry", "The base geometry class.");
+
+    geometry.def("clear", &Geometry::Clear,
+                 "Clear all elements in the geometry.")
+            .def("is_empty", &Geometry::IsEmpty,
+                 "Returns ``True`` iff the geometry is empty.");
+    docstring::ClassMethodDocInject(m, "Geometry", "clear");
+    docstring::ClassMethodDocInject(m, "Geometry", "is_empty");
 }
 
 void pybind_geometry(py::module& m) {

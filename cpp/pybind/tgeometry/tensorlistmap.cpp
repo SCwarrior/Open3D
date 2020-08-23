@@ -24,7 +24,10 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
+#include "open3d/tgeometry/TensorListMap.h"
+
 #include "open3d/tgeometry/PointCloud.h"
+#include "pybind/docstring.h"
 #include "pybind/tgeometry/geometry.h"
 
 namespace open3d {
